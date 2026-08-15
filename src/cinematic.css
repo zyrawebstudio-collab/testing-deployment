@@ -1,1 +1,122 @@
-/* cinematic overrides placeholder */
+/* Zyra cinematic scroll system — layered on top of the base brand styles */
+:root{--ink:#090a0a;--bone:#f2f0e9;--lime:#b8ff38;--grey:#a6aaa3;--line:rgba(242,240,233,.12)}
+html{scroll-snap-type:y proximity}
+body{overscroll-behavior-y:none}
+.app{overflow:visible;background:var(--ink)}
+main{isolation:isolate}
+.world{z-index:1;opacity:1;transition:opacity .4s ease}
+.world:after{content:"";position:absolute;inset:0;background:radial-gradient(circle at 50% 50%,transparent 20%,rgba(9,10,10,.22) 78%,rgba(9,10,10,.46));pointer-events:none}
+header{z-index:50;background:linear-gradient(to bottom,rgba(9,10,10,.9),rgba(9,10,10,.52));border-bottom-color:rgba(242,240,233,.08)}
+
+/* A chapter is not a box. It is scroll-time for one cinematic state. */
+.chapter{position:relative;min-height:155vh;padding:0;border:0;background:transparent;scroll-snap-align:start;z-index:2}
+.chapter-sticky{position:sticky;top:0;height:100svh;display:flex;align-items:center;padding:92px 7vw 42px;overflow:hidden}
+.chapter-sticky:before{content:"";position:absolute;inset:0;pointer-events:none;background:linear-gradient(90deg,rgba(9,10,10,.88) 0%,rgba(9,10,10,.56) 42%,rgba(9,10,10,.04) 72%);z-index:-1}
+.chapter-sticky>*{position:relative}
+.chapter-kicker{font-size:10px;letter-spacing:.22em;text-transform:uppercase;color:rgba(242,240,233,.48);display:flex;gap:12px;align-items:center;margin:0 0 26px}
+.chapter-kicker:before{content:"";width:34px;height:1px;background:var(--lime)}
+.chapter-index{position:absolute;right:7vw;bottom:36px;color:rgba(242,240,233,.38);font-size:10px;letter-spacing:.2em;text-transform:uppercase}
+.chapter-index b{color:var(--lime);font-weight:600}
+.chapter-bridge{position:absolute;left:50%;bottom:-1px;height:104px;width:1px;background:linear-gradient(to bottom,transparent,var(--lime));opacity:.45}
+.chapter-bridge:after{content:"";position:absolute;bottom:0;left:50%;width:7px;height:7px;border-radius:50%;background:var(--lime);box-shadow:0 0 20px rgba(184,255,56,.8);transform:translate(-50%,50%)}
+.cinema-copy{width:min(820px,62vw);z-index:4}
+.cinema-title{margin:0;font-size:clamp(64px,8.2vw,136px);line-height:.84;letter-spacing:-.078em;font-weight:600;text-wrap:balance}
+.cinema-title em{font-style:normal;color:var(--lime)}
+.cinema-title .ghost{color:rgba(242,240,233,.27)}
+.cinema-lede{max-width:560px;margin:30px 0 0;font-size:clamp(16px,1.5vw,20px);line-height:1.65;color:rgba(242,240,233,.57)}
+.cinema-actions{display:flex;gap:12px;flex-wrap:wrap;margin-top:30px}
+.scroll-cue{position:absolute;right:7vw;top:50%;transform:translateY(-50%);display:grid;justify-items:center;gap:12px;color:rgba(242,240,233,.38);font-size:9px;letter-spacing:.2em;text-transform:uppercase;writing-mode:vertical-rl}
+.scroll-cue:after{content:"";width:1px;height:76px;background:linear-gradient(var(--lime),transparent)}
+
+/* Hero — the core is born */
+.chapter--hero .chapter-sticky{background:radial-gradient(circle at 72% 52%,rgba(184,255,56,.06),transparent 30%)}
+.chapter--hero .chapter-sticky:after{content:"";position:absolute;inset:0;background-image:linear-gradient(rgba(255,255,255,.026) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.026) 1px,transparent 1px);background-size:66px 66px;mask-image:linear-gradient(to bottom,#000 5%,transparent 95%);z-index:-2}
+
+/* Chapter 02 — statement becomes a portal rather than a white block */
+.chapter--portal{min-height:170vh}
+.chapter--portal .chapter-sticky{justify-content:center;text-align:center;background:radial-gradient(circle at 50% 50%,rgba(184,255,56,.04),transparent 42%)}
+.chapter--portal .chapter-sticky:before{background:linear-gradient(rgba(9,10,10,.18),rgba(9,10,10,.54))}
+.portal-copy{max-width:1220px;z-index:4}
+.portal-copy h2{margin:0;font-size:clamp(58px,8.4vw,138px);line-height:.88;letter-spacing:-.075em;font-weight:560}
+.portal-copy h2 span{display:block;color:rgba(242,240,233,.22)}
+.portal-copy h2 em{font-style:normal;color:var(--lime)}
+.portal-ring{position:absolute;width:min(68vw,920px);aspect-ratio:1;border:1px solid rgba(184,255,56,.14);border-radius:50%;box-shadow:0 0 100px rgba(184,255,56,.05),inset 0 0 100px rgba(184,255,56,.02);animation:portalBreath 4s ease-in-out infinite;z-index:1}
+.portal-ring:before,.portal-ring:after{content:"";position:absolute;border-radius:inherit;border:1px solid rgba(242,240,233,.09)}
+.portal-ring:before{inset:10%}.portal-ring:after{inset:23%;border-style:dashed}
+@keyframes portalBreath{50%{transform:scale(1.04);opacity:.72}}
+
+/* Services — floating chapter cards, not a conventional list */
+.chapter--services{min-height:190vh}
+.chapter--services .chapter-sticky{align-items:stretch;padding-top:118px}
+.services-cinema{width:100%;display:grid;grid-template-columns:.7fr 1.3fr;gap:7vw;align-items:center}
+.services-intro h2{font-size:clamp(48px,6vw,92px);line-height:.92;letter-spacing:-.065em;margin:0;max-width:600px}
+.services-intro p{color:rgba(242,240,233,.48);line-height:1.65;max-width:430px;margin-top:22px}
+.service-deck{position:relative;height:72vh;perspective:1100px}
+.service-frame{position:absolute;left:8%;right:0;height:18%;min-height:105px;border:1px solid rgba(242,240,233,.11);background:linear-gradient(120deg,rgba(255,255,255,.045),rgba(255,255,255,.012));backdrop-filter:blur(9px);display:grid;grid-template-columns:64px 1fr auto;align-items:center;padding:20px 26px;transform-origin:left center;box-shadow:0 30px 70px rgba(0,0,0,.18)}
+.service-frame:nth-child(1){top:5%;transform:translateZ(70px) rotateY(-7deg)}
+.service-frame:nth-child(2){top:27%;left:2%;transform:translateZ(30px) rotateY(5deg)}
+.service-frame:nth-child(3){top:49%;left:12%;transform:translateZ(-15px) rotateY(-5deg)}
+.service-frame:nth-child(4){top:71%;left:5%;transform:translateZ(-55px) rotateY(7deg)}
+.service-frame .n{font-size:10px;letter-spacing:.16em;color:var(--lime)}
+.service-frame b{font-size:clamp(22px,2.7vw,42px);letter-spacing:-.045em}
+.service-frame .arr{font-size:24px;color:rgba(242,240,233,.4)}
+.service-frame:after{content:"";position:absolute;left:0;top:0;bottom:0;width:2px;background:linear-gradient(transparent,var(--lime),transparent);opacity:.22}
+
+/* Work — one horizontal tracking shot */
+.chapter--work{min-height:240vh}
+.chapter--work .chapter-sticky{display:block;padding-top:110px}
+.work-head{display:flex;align-items:end;justify-content:space-between;gap:40px}
+.work-head h2{font-size:clamp(44px,5.4vw,82px);line-height:.94;letter-spacing:-.06em;max-width:850px;margin:0}
+.work-head p{max-width:330px;color:rgba(242,240,233,.46);line-height:1.55}
+.film-strip{position:absolute;left:7vw;right:-36vw;bottom:6vh;height:49vh;display:flex;gap:26px;align-items:center;transform:translateX(var(--film-shift,0px));transition:transform .08s linear}
+.film-card{flex:0 0 min(55vw,720px);height:100%;position:relative;border:1px solid rgba(242,240,233,.13);background:#101210;overflow:hidden;box-shadow:0 35px 100px rgba(0,0,0,.42);transform:perspective(1200px) rotateY(-6deg)}
+.film-card:nth-child(2){transform:perspective(1200px) rotateY(3deg) translateY(-4vh)}
+.film-card:nth-child(3){transform:perspective(1200px) rotateY(-3deg) translateY(2vh)}
+.film-card .visual{height:72%;position:relative;background:radial-gradient(circle at 70% 30%,rgba(184,255,56,.16),transparent 33%),linear-gradient(145deg,#181c18,#0d0e0d)}
+.film-card .visual:before{content:"";position:absolute;inset:9%;border:1px solid rgba(242,240,233,.14);background-image:linear-gradient(rgba(255,255,255,.025) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.025) 1px,transparent 1px);background-size:34px 34px}
+.film-card .visual strong{position:absolute;left:9%;bottom:8%;font-size:clamp(40px,5vw,74px);letter-spacing:-.06em}
+.film-card .visual span{position:absolute;right:9%;top:9%;color:var(--lime);font-size:10px;letter-spacing:.18em}
+.film-meta{height:28%;display:flex;align-items:center;justify-content:space-between;padding:0 28px}
+.film-meta h3{font-size:28px;margin:0}.film-meta p{margin:5px 0 0;color:rgba(242,240,233,.45);font-size:12px}.film-meta>span{font-size:24px;color:var(--lime)}
+
+/* System — film panels dissolve into a network */
+.chapter--system{min-height:190vh}
+.chapter--system .chapter-sticky{justify-content:center;text-align:center}
+.system-copy{position:absolute;top:12vh;left:7vw;text-align:left;max-width:900px;z-index:4}
+.system-copy h2{font-size:clamp(45px,5.8vw,88px);line-height:.93;letter-spacing:-.065em;margin:0}
+.system-network{position:relative;width:min(72vw,980px);aspect-ratio:2/1;margin-top:12vh;z-index:3}
+.system-network:before,.system-network:after{content:"";position:absolute;background:linear-gradient(90deg,transparent,rgba(184,255,56,.34),transparent)}
+.system-network:before{left:8%;right:8%;top:50%;height:1px}.system-network:after{top:8%;bottom:8%;left:50%;width:1px;background:linear-gradient(transparent,rgba(184,255,56,.34),transparent)}
+.node{position:absolute;padding:13px 18px;border:1px solid rgba(242,240,233,.16);border-radius:999px;background:rgba(9,10,10,.75);backdrop-filter:blur(12px);font-size:11px;letter-spacing:.06em;box-shadow:0 16px 40px rgba(0,0,0,.18)}
+.node--center{left:50%;top:50%;transform:translate(-50%,-50%);background:var(--lime);color:#090a0a;border-color:var(--lime);font-weight:700;box-shadow:0 0 70px rgba(184,255,56,.22)}
+.node:nth-child(1){left:4%;top:12%}.node:nth-child(2){right:4%;top:12%}.node:nth-child(4){left:4%;bottom:12%}.node:nth-child(5){right:4%;bottom:12%}
+
+/* Bright editorial interlude — still transparent enough for world to remain alive */
+.chapter--light{min-height:165vh;color:var(--ink)}
+.chapter--light .chapter-sticky{background:rgba(242,240,233,.91)}
+.chapter--light .chapter-sticky:before{background:radial-gradient(circle at 72% 45%,rgba(184,255,56,.15),transparent 34%)}
+.chapter--light .chapter-kicker{color:rgba(9,10,10,.48)}
+.chapter--light .chapter-kicker:before{background:#4d6d10}
+.light-copy{width:100%;z-index:5}
+.light-copy h2{font-size:clamp(54px,7.4vw,116px);line-height:.87;letter-spacing:-.075em;margin:0;max-width:1200px}
+.light-copy h2 span{color:rgba(9,10,10,.25)}
+.light-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:30px;margin-top:72px}
+.light-stats article{padding-top:22px;border-top:1px solid rgba(9,10,10,.18)}
+.light-stats b{display:block;font-size:clamp(38px,5vw,72px);letter-spacing:-.055em}.light-stats span{display:block;margin-top:8px;color:rgba(9,10,10,.53)}
+.chapter--light .chapter-index{color:rgba(9,10,10,.36)}
+
+/* Finale */
+.chapter--finale{min-height:170vh}
+.chapter--finale .chapter-sticky{justify-content:center;text-align:center;background:radial-gradient(circle at 50% 54%,rgba(184,255,56,.06),transparent 32%)}
+.chapter--finale .chapter-sticky:before{background:radial-gradient(circle,transparent 0%,rgba(9,10,10,.3) 56%,rgba(9,10,10,.75) 100%)}
+.finale-copy{max-width:1200px;z-index:5}
+.finale-copy h2{font-size:clamp(66px,9.5vw,148px);line-height:.82;letter-spacing:-.078em;margin:0}.finale-copy h2 em{font-style:normal;color:var(--lime)}
+.finale-copy p{max-width:600px;margin:28px auto;color:rgba(242,240,233,.52);font-size:18px;line-height:1.6}
+.finale-copy .pill{margin-top:4px}
+
+/* Cinematic UI */
+.scene-progress{position:fixed;right:22px;top:50%;transform:translateY(-50%);z-index:40;display:grid;gap:10px}
+.scene-progress a{width:5px;height:5px;border-radius:50%;background:rgba(242,240,233,.25);transition:.25s}.scene-progress a:hover{background:var(--lime);transform:scale(1.7)}
+
+@media(max-width:900px){html{scroll-snap-type:none}.chapter{min-height:135vh}.chapter-sticky{padding:90px 6vw 32px}.cinema-copy{width:88vw}.scroll-cue,.scene-progress{display:none}.services-cinema{grid-template-columns:1fr;align-content:center}.services-intro{position:absolute;top:12vh}.service-deck{height:54vh;margin-top:23vh}.film-strip{right:-115vw;height:43vh}.film-card{flex-basis:78vw}.work-head p{display:none}.system-network{width:88vw}.light-stats{grid-template-columns:1fr;gap:14px;margin-top:42px}.light-stats article{display:flex;justify-content:space-between;align-items:end}.light-stats b{font-size:42px}}
+@media(max-width:600px){.chapter{min-height:125vh}.chapter-sticky{padding:84px 20px 24px}.chapter-sticky:before{background:linear-gradient(to bottom,rgba(9,10,10,.3),rgba(9,10,10,.78))}.cinema-copy{width:100%}.cinema-title{font-size:clamp(52px,16vw,82px)}.cinema-lede{font-size:15px}.chapter-index{right:20px;bottom:22px}.portal-copy h2{font-size:clamp(48px,14vw,78px)}.portal-ring{width:130vw}.services-intro{left:20px;right:20px}.services-intro h2{font-size:44px}.service-deck{margin-top:26vh}.service-frame{left:0!important;right:0;padding:15px 16px;grid-template-columns:38px 1fr 22px;height:19%}.service-frame b{font-size:20px}.chapter--work{min-height:210vh}.work-head{display:block}.work-head h2{font-size:46px}.film-strip{left:20px;right:-190vw;height:39vh;bottom:12vh;gap:14px}.film-card{flex-basis:84vw}.film-meta{padding:0 17px}.film-meta h3{font-size:20px}.film-meta p{font-size:10px}.system-copy{left:20px;right:20px;top:12vh}.system-copy h2{font-size:44px}.system-network{width:100%;height:48vh;aspect-ratio:auto;margin-top:17vh}.node{font-size:9px;padding:9px 11px}.chapter--light .chapter-sticky{padding-top:110px;align-items:flex-start}.light-copy h2{font-size:50px}.finale-copy h2{font-size:clamp(58px,17vw,88px)}.finale-copy p{font-size:15px}.world{opacity:.8}}
